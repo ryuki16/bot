@@ -1,5 +1,7 @@
 import discord
 import random
+import os
+import requests
 from discord.ext import commands
 
 from Bot_logic import gen_emodji, gen_pass
@@ -69,9 +71,31 @@ async def daftar_perintah(ctx):
         "$password - Generates a random password.",
         "$emodji - Sends a random emoji.",
         "$flip - Flips a coin and returns heads or tails.",
-        "$joined <member> - Displays when a member joined the server."
+        "$joined <member> - Displays when a member joined the server.",
+        "$mem - Sends a meme image.",
+        "$dog - Sends a random dog image."
     ]
     help_message = "\n".join(commands_list)
     await ctx.send(f"Available commands:\n{help_message}")
 
-bot.run("TOKEN")
+@bot.command()
+async def mem(ctx):
+    image_path = os.listdir('KODLAND/images')
+    image_file = random.choice(image_path)
+    with open(f'KODLAND/images/{image_file}', 'rb') as f:
+        picture = discord.File(f)
+        await ctx.send(file=picture)
+
+def get_dog_image_url():    
+    url = "https://random.dog/woof.json"
+    res = requests.get(url)
+    data = res.json()
+    return data['url']
+
+@bot.command()
+async def dog(ctx):
+    '''Setelah kita memanggil perintah anjing (dog), program akan memanggil fungsi get_dog_image_url'''
+    image_url = get_dog_image_url()
+    await ctx.send(image_url)
+
+bot.run("token")

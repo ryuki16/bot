@@ -98,4 +98,26 @@ async def dog(ctx):
     image_url = get_dog_image_url()
     await ctx.send(image_url)
 
+def get_duck_image_url():    
+    url = 'https://random-d.uk/api/random'
+    res = requests.get(url)
+    data = res.json()
+    return data['url']
+
+@bot.command()
+async def duck(ctx):
+    image_url = get_duck_image_url()
+    await ctx.send(image_url)
+
+def get_fox_image_url():    
+    url = 'https://randomfox.ca/floof/'
+    res = requests.get(url)
+    data = res.json()
+    return data['image']
+
+@bot.command()
+async def fox(ctx):
+    image_url = get_fox_image_url()
+    await ctx.send(image_url)
+
 bot.run("token")
